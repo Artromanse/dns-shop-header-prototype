@@ -144,7 +144,7 @@ img{display:block;}
 
 .actions{display:flex;align-items:center;gap:2px;flex-shrink:0;}
 .action{
-  position:relative;width:88px;height:64px;
+  width:88px;height:64px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
   padding:6px 6px 6px;border-radius:var(--r-md);
   color:var(--text-secondary);font-size:14px;line-height:1.3;
@@ -152,21 +152,59 @@ img{display:block;}
 }
 .action:hover{background:var(--hover-gray);color:var(--text-primary);}
 .action:active{background:var(--active-gray);}
-.action > img{width:24px;height:24px;}
+.action-icon{
+  position:relative;
+  width:24px;
+  height:24px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.action-icon img{
+  width:24px;
+  height:24px;
+  display:block;
+  flex-shrink:0;
+}
 .badge{
-  position:absolute;top:5px;right:18px;
-  min-width:18px;height:18px;padding:0 5px;
+  position:absolute;
+  top:-8px;
+  right:-10px;
+  min-width:20px;
+  height:20px;
+  padding:0 5px;
   display:flex;align-items:center;justify-content:center;
-  background:var(--brand-main);color:#fff;
-  font-weight:700;font-size:11px;line-height:1;
-  border-radius:50px;border:2px solid var(--bg-white);
+  background:var(--brand-main);
+  color:#fff;
+  font-weight:700;
+  font-size:12px;
+  line-height:1;
+  border-radius:999px;
+  border:2px solid #fff;
+  letter-spacing:0;
+  pointer-events:none;
 }
 .avatar-wrap{width:32px;height:32px;position:relative;flex-shrink:0;}
 .avatar-wrap img{position:absolute;display:block;}
 .ava-photo{inset:6px;width:20px;height:20px;border-radius:50%;object-fit:cover;}
 .ava-base{inset:0;width:32px;height:32px;}
 .ava-sub{left:-6px;top:-6px;width:44px;height:44px;}
-.action-profile .profile-avatar{width:32px;height:32px;object-fit:contain;}
+.profile-avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+}
+.action-profile .action-icon{
+  width:32px;
+  height:32px;
+}
+.action-profile .action-icon img.profile-avatar{
+  width:32px;
+  height:32px;
+}
 
 /* ═══════════════════ BODY ═══════════════════ */
 .body-wrap{
@@ -354,7 +392,17 @@ img{display:block;}
 .collapse.open .collapse-body{display:block;}
 .payment-text{margin-bottom:12px;}
 .payment-logos{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.payment-logos img{height:20px;width:auto;object-fit:contain;}
+.payment-logo{
+  display:block;
+  flex:0 0 auto;
+  object-fit:contain;
+}
+.pay-sbp{width:56px;height:28px;}
+.pay-mir{width:40px;height:12px;}
+.pay-sber{width:56px;height:28px;}
+.pay-tpay{width:67px;height:28px;}
+.pay-master{width:30px;height:21px;}
+.pay-visa{width:40px;height:12px;}
 .youmoney-text{
   font-size:12px;font-weight:700;color:#8B1A1A;
   background:linear-gradient(90deg,#ff0097,#ffe600);
@@ -536,23 +584,31 @@ img{display:block;}
 
         <div class="actions">
           <button class="action" type="button" aria-label="Сравнение">
-            <img src="assets/compare.svg" alt="">
-            <span class="badge">1</span>
+            <span class="action-icon">
+              <img src="assets/compare.svg" alt="">
+              <span class="badge">1</span>
+            </span>
             <span>Сравнение</span>
           </button>
           <button class="action" type="button" aria-label="Избранное">
-            <img src="assets/wishlist.svg" alt="">
-            <span class="badge">15</span>
+            <span class="action-icon">
+              <img src="assets/wishlist.svg" alt="">
+              <span class="badge">15</span>
+            </span>
             <span>Избранное</span>
           </button>
           <button class="action" type="button" aria-label="Корзина">
-            <img src="assets/cart.svg" alt="">
-            <span class="badge">3</span>
+            <span class="action-icon">
+              <img src="assets/cart.svg" alt="">
+              <span class="badge">3</span>
+            </span>
             <span>1 260 ₽</span>
           </button>
           <button class="action action-profile" type="button" aria-label="Профиль">
-            <img class="profile-avatar" src="assets/review-avatar.svg" alt="">
-            <span class="badge">1</span>
+            <span class="action-icon">
+              <img class="profile-avatar" src="assets/avatar-profile.png" alt="">
+              <span class="badge">1</span>
+            </span>
             <span>Профиль</span>
           </button>
         </div>
@@ -676,13 +732,13 @@ img{display:block;}
             <div class="collapse-body" style="display:block;">
               <p class="payment-text">Подарочные карты, наличный расчёт, безналичный расчёт</p>
               <div class="payment-logos">
-                <img src="assets/sbp.svg" alt="СБП" style="height:20px;">
-                <img src="assets/mir.svg" alt="Мир" style="height:12px;">
-                <img src="assets/sber.svg" alt="Сбер" style="height:20px;">
-                <img src="assets/t-pay.svg" alt="T-Pay" style="height:16px;">
+                <img class="payment-logo pay-sbp" src="assets/sbp.svg" alt="СБП">
+                <img class="payment-logo pay-mir" src="assets/mir.svg" alt="Мир">
+                <img class="payment-logo pay-sber" src="assets/sber.svg" alt="Сбер">
+                <img class="payment-logo pay-tpay" src="assets/t-pay.svg" alt="T-Pay">
                 <span class="youmoney-text" style="font-size:13px;font-weight:700;background:linear-gradient(90deg,#9b0be8,#ff0097);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ЮMoney</span>
-                <img src="assets/mastercard.svg" alt="Mastercard" style="height:20px;">
-                <img src="assets/visa.svg" alt="Visa" style="height:12px;">
+                <img class="payment-logo pay-master" src="assets/mastercard.svg" alt="Mastercard">
+                <img class="payment-logo pay-visa" src="assets/visa.svg" alt="Visa">
               </div>
             </div>
           </div>
