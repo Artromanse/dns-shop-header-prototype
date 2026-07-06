@@ -152,7 +152,7 @@ img{display:block;}
 }
 .action:hover{background:var(--hover-gray);color:var(--text-primary);}
 .action:active{background:var(--active-gray);}
-.action img{width:24px;height:24px;}
+.action > img{width:24px;height:24px;}
 .badge{
   position:absolute;top:5px;right:18px;
   min-width:18px;height:18px;padding:0 5px;
@@ -166,6 +166,7 @@ img{display:block;}
 .ava-photo{inset:6px;width:20px;height:20px;border-radius:50%;object-fit:cover;}
 .ava-base{inset:0;width:32px;height:32px;}
 .ava-sub{left:-6px;top:-6px;width:44px;height:44px;}
+.action-profile .profile-avatar{width:32px;height:32px;object-fit:contain;}
 
 /* ═══════════════════ BODY ═══════════════════ */
 .body-wrap{
@@ -260,8 +261,8 @@ img{display:block;}
 .ic-btn img{width:18px;height:18px;}
 
 /* action buttons row */
-.actions-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.btn-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.actions-row{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;}
+.btn-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1 1 auto;min-width:220px;}
 .btn-primary{
   height:44px;padding:0 20px;
   border-radius:var(--r-md);
@@ -297,6 +298,7 @@ img{display:block;}
   display:flex;align-items:center;gap:6px;
   font-size:14px;color:var(--text-primary);
   cursor:pointer;white-space:nowrap;
+  margin-left:auto;
 }
 .route-link:hover{color:var(--brand-dark);}
 .route-icon-wrap{
@@ -548,12 +550,8 @@ img{display:block;}
             <span class="badge">3</span>
             <span>1 260 ₽</span>
           </button>
-          <button class="action" type="button" aria-label="Профиль">
-            <span class="avatar-wrap">
-              <img class="ava-photo" src="assets/avatar-photo.png" alt="">
-              <img class="ava-base" src="assets/avatar-base.svg" alt="">
-              <img class="ava-sub" src="assets/avatar-subtract.svg" alt="">
-            </span>
+          <button class="action action-profile" type="button" aria-label="Профиль">
+            <img class="profile-avatar" src="assets/review-avatar.svg" alt="">
             <span class="badge">1</span>
             <span>Профиль</span>
           </button>
@@ -648,12 +646,12 @@ img{display:block;}
         <!-- photo slider -->
         <div class="photo-slider">
           <div class="photo-track" id="photoTrack">
-            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина"></div>
-            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:20% 50%"></div>
-            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:40% 50%"></div>
-            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:60% 50%"></div>
-            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:80% 50%"></div>
-            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:100% 50%"></div>
+            <div class="photo-thumb"><img src="assets/shop-photo-1.png" alt="Фото магазина"></div>
+            <div class="photo-thumb"><img src="assets/shop-photo-2.png" alt="Фото магазина"></div>
+            <div class="photo-thumb"><img src="assets/shop-photo-3.png" alt="Фото магазина"></div>
+            <div class="photo-thumb"><img src="assets/shop-photo-4.png" alt="Фото магазина"></div>
+            <div class="photo-thumb"><img src="assets/shop-photo-5.png" alt="Фото магазина"></div>
+            <div class="photo-thumb"><img src="assets/shop-photo-6.png" alt="Фото магазина"></div>
           </div>
           <button class="slider-arrow" id="sliderNext" type="button" aria-label="Следующий">›</button>
         </div>
