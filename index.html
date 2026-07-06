@@ -3,540 +3,936 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DNS Header — Shop Prototype</title>
+<title>DNS — ТРЦ Город Лефортово</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg-page:#ececec;
-    --bg-secondary:#ffffff;
-    --bg-input-gray:#f7f7f7;
-    --text-primary:#333333;
-    --text-secondary:#4e4e4e;
-    --text-tertiary:#7d7c7c;
-    --text-placeholder:#8c8c8c;
-    --brand-orange:#ffa319;
-    --brand-dark:#fc8507;
-    --brand-gradient:linear-gradient(116.54deg,#fc8507 3.97%,#ffa218 102.81%);
-    --brand-gradient-hover:linear-gradient(116.54deg,#ff9741 3.97%,#ffb14a 102.81%);
-    --brand-gradient-active:linear-gradient(116.54deg,#f07d05 3.97%,#f59512 102.81%);
-    --icon-primary:#a7a5a5;
-    --stroke-light:#eeeeee;
-    --controls-hover-gray:#eae8e8;
-    --controls-active-gray:#e0dede;
-    --radius:12px;
-    --radius-small:8px;
-    --shadow-header:0 4px 18px rgba(0,0,0,.10);
-    --focus-ring:0 0 0 3px rgba(252,133,7,.22);
-  }
+:root{
+  --bg-page:#f7f7f7;
+  --bg-white:#ffffff;
+  --bg-input:#f7f7f7;
+  --text-primary:#333333;
+  --text-secondary:#4e4e4e;
+  --text-tertiary:#7d7c7c;
+  --text-muted:#8c8c8c;
+  --text-link:#007de3;
+  --brand-dark:#fc8507;
+  --brand-main:#ffa319;
+  --brand-grad:linear-gradient(116.54deg,#fc8507 3.97%,#ffa218 102.81%);
+  --brand-grad-hover:linear-gradient(116.54deg,#ff9741 3.97%,#ffb14a 102.81%);
+  --brand-grad-active:linear-gradient(116.54deg,#f07d05 3.97%,#f59512 102.81%);
+  --icon-gray:#a7a5a5;
+  --stroke:#eeeeee;
+  --stroke-divider:#eae8e8;
+  --hover-gray:#eae8e8;
+  --active-gray:#e0dede;
+  --wobbler-red-bg:#fff0ef;
+  --wobbler-red:#ff6558;
+  --r-sm:8px;
+  --r-md:12px;
+  --r-lg:16px;
+  --r-xl:20px;
+  --shadow-header:0 1px 2px rgba(0,0,0,.10);
+  --shadow-plate:0 1px 2px rgba(0,0,0,.10);
+  --shadow-float:0 3px 12px rgba(0,0,0,.15);
+  --focus-ring:0 0 0 3px rgba(252,133,7,.22);
+}
 
-  *{box-sizing:border-box;}
-  html,body{min-height:100%;}
-  body{
-    margin:0;
-    font-family:'PT Sans',Arial,sans-serif;
-    background:var(--bg-page);
-    color:var(--text-primary);
-    -webkit-font-smoothing:antialiased;
-  }
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  font-family:'PT Sans',Arial,sans-serif;
+  background:var(--bg-page);
+  color:var(--text-primary);
+  -webkit-font-smoothing:antialiased;
+  min-width:1380px;
+}
+button,input{font:inherit;border:0;cursor:pointer;background:none;}
+a{color:inherit;text-decoration:none;}
+img{display:block;}
 
-  button,
-  input{
-    font:inherit;
-  }
+/* ── overflow wrapper for narrow viewports ── */
+.outer{min-width:1380px;overflow-x:auto;}
 
-  button{
-    border:0;
-    cursor:pointer;
-  }
+/* ═══════════════════ HEADER ═══════════════════ */
+.header{
+  background:var(--bg-white);
+  box-shadow:var(--shadow-header);
+  width:100%;
+}
+.header-inner{
+  max-width:1380px;
+  margin:0 auto;
+  padding:0 0;
+}
 
-  .page{
-    min-height:100vh;
-    padding:42px 0;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:18px;
-  }
+/* top row */
+.top-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:12px 0 8px;
+  color:var(--text-secondary);
+  font-size:14px;
+  line-height:1.3;
+  white-space:nowrap;
+}
+.top-left{display:flex;align-items:center;gap:20px;}
+.locale{display:flex;align-items:center;gap:6px;}
+.flag{width:22px;height:14px;border-radius:2px;object-fit:cover;}
+.ic16{width:16px;height:16px;flex-shrink:0;}
+.ic12{width:12px;height:12px;flex-shrink:0;}
+.location{display:flex;align-items:center;gap:4px;}
+.nav{display:flex;align-items:center;gap:20px;}
+.nav-link{display:flex;align-items:center;gap:4px;transition:color .14s;}
+.nav-link:hover{color:var(--brand-dark);}
+.video-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--brand-main);
+  margin-left:2px;margin-top:-8px;flex-shrink:0;
+}
+.phone{color:var(--text-secondary);font-weight:700;}
+.phone:hover{color:var(--brand-dark);}
 
-  .viewport{
-    width:100%;
-    overflow-x:auto;
-    padding:0 24px 14px;
-  }
+/* bottom row */
+.bottom-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 0 16px;
+}
+.brand-btn{
+  width:280px;height:64px;flex-shrink:0;
+  display:flex;align-items:center;gap:18px;
+  padding:0 14px 0 18px;
+  border-radius:var(--r-md);
+  background:var(--brand-grad);
+  color:#fff;
+  transition:background .14s,box-shadow .14s;
+  box-shadow:0 4px 12px rgba(252,133,7,.18);
+}
+.brand-btn:hover{background:var(--brand-grad-hover);box-shadow:0 6px 16px rgba(252,133,7,.24);}
+.brand-btn:active{background:var(--brand-grad-active);}
+.brand-logo{width:88px;height:28px;object-fit:contain;}
+.divider-v{width:1px;height:32px;background:rgba(255,255,255,.28);flex-shrink:0;}
+.catalog-label{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;}
+.catalog-label img{width:18px;height:18px;}
 
-  .header-shell{
-    width:min(1660px,calc(100vw - 260px));
-    min-width:1380px;
-    margin:0 auto;
-    background:var(--bg-secondary);
-    border-radius:0 0 var(--radius) var(--radius);
-    box-shadow:var(--shadow-header);
-  }
+.search-form{
+  flex:1 1 auto;height:64px;
+  display:flex;align-items:center;
+  border-radius:var(--r-md);
+  background:var(--bg-input);
+  transition:background .14s,box-shadow .14s;
+}
+.search-form:hover{background:#f0efef;}
+.search-form:focus-within{background:#fff;box-shadow:var(--focus-ring),inset 0 0 0 1px rgba(252,133,7,.4);}
+.search-input{
+  flex:1;height:100%;padding:0 12px 0 20px;
+  background:transparent;outline:0;color:var(--text-primary);font-size:16px;
+}
+.search-input::placeholder{color:var(--text-tertiary);}
+.search-btn{
+  width:52px;height:52px;margin-right:4px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-sm);transition:background .14s;
+}
+.search-btn:hover{background:var(--hover-gray);}
+.search-btn img{width:24px;height:24px;}
 
-  .top-row{
-    max-width:1380px;
-    height:40px;
-    margin:0 auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:24px;
-    color:var(--text-secondary);
-    font-size:14px;
-    line-height:18px;
-    white-space:nowrap;
-  }
+.actions{display:flex;align-items:center;gap:2px;flex-shrink:0;}
+.action{
+  position:relative;width:88px;height:64px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  padding:6px 6px 6px;border-radius:var(--r-md);
+  color:var(--text-secondary);font-size:14px;line-height:1.3;
+  transition:background .14s,color .14s;
+}
+.action:hover{background:var(--hover-gray);color:var(--text-primary);}
+.action:active{background:var(--active-gray);}
+.action img{width:24px;height:24px;}
+.badge{
+  position:absolute;top:5px;right:18px;
+  min-width:18px;height:18px;padding:0 5px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--brand-main);color:#fff;
+  font-weight:700;font-size:11px;line-height:1;
+  border-radius:50px;border:2px solid var(--bg-white);
+}
+.avatar-wrap{width:32px;height:32px;position:relative;flex-shrink:0;}
+.avatar-wrap img{position:absolute;display:block;}
+.ava-photo{inset:6px;width:20px;height:20px;border-radius:50%;object-fit:cover;}
+.ava-base{inset:0;width:32px;height:32px;}
+.ava-sub{left:-6px;top:-6px;width:44px;height:44px;}
 
-  .top-left,
-  .top-right,
-  .locale,
-  .location,
-  .nav-link,
-  .dropdown-link{
-    display:flex;
-    align-items:center;
-  }
+/* ═══════════════════ BODY ═══════════════════ */
+.body-wrap{
+  max-width:1380px;
+  margin:0 auto;
+  padding:16px 0 60px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
 
-  .top-left{
-    min-width:0;
-    gap:20px;
-  }
+/* breadcrumbs */
+.breadcrumbs{display:flex;align-items:center;gap:4px;font-size:14px;padding:4px 0;}
+.bc-item{display:flex;align-items:center;gap:4px;color:var(--text-primary);}
+.bc-item:hover{color:var(--brand-dark);}
+.bc-item.current{color:var(--text-muted);pointer-events:none;}
+.bc-item img{width:12px;height:12px;opacity:.5;}
 
-  .locale{
-    gap:6px;
-  }
+/* page title */
+.page-title{font-size:32px;font-weight:700;line-height:1.3;color:var(--text-primary);}
 
-  .flag{
-    width:22px;
-    height:14px;
-    display:block;
-    border-radius:3px;
-    object-fit:cover;
-  }
+/* map container */
+.map-card{
+  display:flex;
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  box-shadow:var(--shadow-plate);
+  height:1000px;
+}
 
-  .chevron{
-    width:16px;
-    height:16px;
-    display:block;
-  }
+/* ── LEFT PANEL ── */
+.store-panel{
+  width:402px;flex-shrink:0;
+  background:var(--bg-white);
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+  position:relative;
+  scrollbar-width:thin;
+  scrollbar-color:var(--stroke-divider) transparent;
+}
+.store-panel::-webkit-scrollbar{width:4px;}
+.store-panel::-webkit-scrollbar-thumb{background:var(--stroke-divider);border-radius:4px;}
 
-  .location{
-    gap:6px;
-    font-weight:700;
-  }
+.store-content{padding:16px;display:flex;flex-direction:column;gap:12px;}
 
-  .location img{
-    width:16px;
-    height:16px;
-    display:block;
-  }
+/* wobbler tag */
+.wobbler{
+  position:absolute;right:16px;top:16px;
+  display:flex;align-items:center;gap:4px;
+  background:var(--wobbler-red-bg);color:var(--wobbler-red);
+  font-size:12px;line-height:1.3;
+  padding:4px 8px;border-radius:var(--r-sm);
+  white-space:nowrap;z-index:2;
+}
+.wobbler img{width:16px;height:16px;flex-shrink:0;}
 
-  .nav{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    min-width:0;
-  }
+/* store header */
+.store-header{display:flex;gap:8px;align-items:flex-start;}
+.pvz-logo{width:24px;height:24px;flex-shrink:0;position:relative;}
+.pvz-logo-bg{position:absolute;inset:0;width:100%;height:100%;}
+.pvz-logo-sub{position:absolute;inset:4px 1px;width:calc(100% - 2px);height:calc(100% - 8px);}
+.store-details{flex:1;display:flex;flex-direction:column;gap:4px;}
+.store-name{font-size:16px;font-weight:400;line-height:1.4;color:var(--text-primary);}
+.metro-row{display:flex;align-items:center;gap:4px;font-size:14px;line-height:1.3;}
+.metro-dot{width:6px;height:6px;border-radius:50%;background:#c7e487;flex-shrink:0;}
+.store-address{font-size:14px;line-height:1.3;color:var(--text-tertiary);}
 
-  .nav-link,
-  .dropdown-link{
-    position:relative;
-    gap:4px;
-    color:var(--text-secondary);
-    text-decoration:none;
-    border-radius:6px;
-    transition:color .16s ease,background .16s ease;
-  }
+/* time */
+.time-row{display:flex;align-items:flex-start;gap:8px;font-size:14px;line-height:1.4;}
+.time-row img{width:24px;height:24px;flex-shrink:0;margin-top:1px;}
 
-  .nav-link:hover,
-  .dropdown-link:hover{
-    color:var(--brand-dark);
-  }
+/* chips row */
+.chips-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+.rating-chip{
+  display:flex;align-items:center;gap:4px;
+  padding:4px 8px;border-radius:var(--r-sm);
+  background:var(--bg-page);font-size:14px;line-height:1.3;
+}
+.rating-chip img{width:16px;height:16px;}
+.rating-num{font-weight:700;color:var(--text-secondary);}
+.chip-divider{width:1px;height:16px;background:var(--icon-gray);}
+.rating-count{color:var(--text-secondary);}
+.ic-btn{
+  width:32px;height:32px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-sm);background:var(--bg-page);
+  transition:background .14s;
+}
+.ic-btn:hover{background:var(--hover-gray);}
+.ic-btn:active{background:var(--active-gray);}
+.ic-btn img{width:18px;height:18px;}
 
-  .video-dot{
-    width:5px;
-    height:5px;
-    border-radius:50%;
-    background:var(--brand-orange);
-    position:absolute;
-    right:-6px;
-    top:1px;
-  }
+/* action buttons row */
+.actions-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.btn-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.btn-primary{
+  height:44px;padding:0 20px;
+  border-radius:var(--r-md);
+  background:var(--brand-grad);
+  color:#fff;font-size:16px;font-weight:700;
+  display:flex;align-items:center;gap:8px;
+  transition:background .14s,box-shadow .14s;
+  white-space:nowrap;
+}
+.btn-primary:hover{background:var(--brand-grad-hover);}
+.btn-primary:active{background:var(--brand-grad-active);}
+.btn-gray{
+  height:44px;padding:0 20px;
+  border-radius:var(--r-md);
+  background:var(--bg-page);
+  color:var(--text-primary);font-size:16px;
+  display:flex;align-items:center;
+  transition:background .14s;
+  white-space:nowrap;
+}
+.btn-gray:hover{background:var(--hover-gray);}
+.btn-fav{
+  width:44px;height:44px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-md);background:var(--bg-page);
+  transition:background .14s;
+}
+.btn-fav:hover{background:var(--hover-gray);}
+.btn-fav.active img{filter:hue-rotate(0deg) saturate(10) brightness(.7);}
+.btn-fav img{width:20px;height:20px;}
 
-  .phone{
-    color:var(--text-secondary);
-    text-decoration:none;
-    font-weight:700;
-    letter-spacing:.1px;
-  }
+.route-link{
+  display:flex;align-items:center;gap:6px;
+  font-size:14px;color:var(--text-primary);
+  cursor:pointer;white-space:nowrap;
+}
+.route-link:hover{color:var(--brand-dark);}
+.route-icon-wrap{
+  width:24px;height:24px;border-radius:var(--r-sm);
+  border:1px solid var(--stroke);overflow:hidden;flex-shrink:0;
+}
+.route-icon-wrap img{width:100%;height:100%;object-fit:cover;}
+.route-link .ext{width:20px;height:20px;flex-shrink:0;}
 
-  .bottom-row{
-    max-width:1380px;
-    height:80px;
-    margin:0 auto;
-    padding:8px 0 16px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-  }
+/* photo slider */
+.photo-slider{position:relative;overflow:hidden;}
+.photo-track{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
+.photo-track::-webkit-scrollbar{display:none;}
+.photo-thumb{
+  width:70px;height:52px;flex-shrink:0;
+  border-radius:var(--r-sm);overflow:hidden;
+  background:var(--hover-gray);
+  cursor:pointer;
+}
+.photo-thumb img{width:100%;height:100%;object-fit:cover;}
+.slider-arrow{
+  position:absolute;top:50%;right:0;transform:translateY(-50%);
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.9);border-radius:50%;
+  box-shadow:0 2px 6px rgba(0,0,0,.15);
+  font-size:14px;color:var(--text-secondary);
+  cursor:pointer;transition:background .12s;
+}
+.slider-arrow:hover{background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.2);}
 
-  .brand-catalog{
-    width:280px;
-    height:64px;
-    padding:0 14px 0 18px;
-    display:flex;
-    align-items:center;
-    gap:18px;
-    border-radius:var(--radius);
-    background:var(--brand-gradient);
-    color:#fff;
-    box-shadow:0 4px 12px rgba(252,133,7,.20);
-    transition:background .16s ease,transform .16s ease,box-shadow .16s ease;
-  }
+/* accordions */
+.accordion-list{display:flex;flex-direction:column;gap:8px;}
+.collapse{
+  border-radius:var(--r-md);
+  background:var(--bg-page);
+  overflow:hidden;
+}
+.collapse-header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:4px;padding:12px;min-height:44px;cursor:pointer;
+  transition:background .12s;
+}
+.collapse-header:hover{background:var(--hover-gray);}
+.collapse-title{font-size:14px;line-height:1.3;color:var(--text-primary);}
+.collapse-title.bold{font-weight:700;}
+.collapse-arrow{width:20px;height:20px;flex-shrink:0;transition:transform .2s;}
+.collapse.open .collapse-arrow{transform:rotate(180deg);}
+.collapse-body{
+  display:none;padding:4px 12px 16px;
+  font-size:16px;line-height:1.4;color:var(--text-primary);
+}
+.collapse.open .collapse-body{display:block;}
+.payment-text{margin-bottom:12px;}
+.payment-logos{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.payment-logos img{height:20px;width:auto;object-fit:contain;}
+.youmoney-text{
+  font-size:12px;font-weight:700;color:#8B1A1A;
+  background:linear-gradient(90deg,#ff0097,#ffe600);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-style:italic;
+}
 
-  .brand-catalog:hover{
-    background:var(--brand-gradient-hover);
-    box-shadow:0 6px 16px rgba(252,133,7,.24);
-  }
+/* summary */
+.summary-card{
+  border-radius:var(--r-lg);background:var(--bg-page);
+  padding:16px;display:flex;flex-direction:column;gap:8px;
+}
+.summary-title{font-size:16px;font-weight:700;line-height:1.3;}
+.summary-text{font-size:14px;line-height:1.3;color:var(--text-primary);}
 
-  .brand-catalog:active{
-    background:var(--brand-gradient-active);
-    transform:translateY(1px);
-  }
+/* reviews */
+.reviews{display:flex;flex-direction:column;gap:20px;}
+.reviews-heading{font-size:18px;font-weight:700;line-height:1.3;}
+.review-list{display:flex;flex-direction:column;gap:8px;}
+.review{display:flex;flex-direction:column;gap:8px;}
+.review-header{display:flex;gap:8px;align-items:center;}
+.review-avatar{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;position:relative;}
+.review-avatar img{width:100%;height:100%;object-fit:cover;}
+.review-info{flex:1;display:flex;flex-direction:column;gap:4px;}
+.review-meta{display:flex;align-items:center;gap:8px;font-size:14px;}
+.review-name{font-weight:700;color:var(--text-secondary);}
+.review-date{color:var(--text-tertiary);}
+.stars{display:flex;gap:2px;}
+.stars img{width:16px;height:16px;}
+.review-text{font-size:16px;line-height:1.4;color:var(--text-primary);}
+.review-expand{
+  display:flex;align-items:center;gap:4px;
+  font-size:16px;color:var(--text-link);cursor:pointer;
+  margin-top:4px;
+}
+.review-expand img{width:16px;height:16px;}
 
-  .brand-logo{
-    width:88px;
-    height:28px;
-    flex:0 0 auto;
-    display:block;
-  }
+/* show more */
+.btn-show-more{
+  height:44px;padding:0 20px;
+  border-radius:var(--r-md);background:var(--bg-page);
+  color:var(--text-primary);font-size:16px;
+  display:flex;align-items:center;
+  transition:background .14s;align-self:flex-start;
+  border:1px solid var(--stroke-divider);
+}
+.btn-show-more:hover{background:var(--hover-gray);}
 
-  .catalog-divider{
-    width:1px;
-    height:32px;
-    background:rgba(255,255,255,.28);
-  }
+/* ── RIGHT MAP ── */
+.map-image-area{
+  flex:1;position:relative;overflow:hidden;
+  background:#e8f0e0;
+}
+.map-bg{width:100%;height:100%;object-fit:cover;object-position:center;}
 
-  .catalog-label{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-weight:700;
-    font-size:18px;
-    line-height:22px;
-  }
+/* clusters */
+.cluster{
+  position:absolute;background:var(--bg-white);
+  border-radius:50px;padding:2px;
+  box-shadow:0 1px 2px rgba(0,0,0,.10);
+  display:flex;flex-direction:column;align-items:center;
+  pointer-events:none;
+}
+.cluster-inner{
+  background:var(--brand-dark);border-radius:40px;
+  padding:2px 4px;
+  font-size:12px;font-weight:700;color:#fff;
+  min-width:20px;text-align:center;line-height:1.3;
+}
+.cluster-inner.big{font-size:14px;padding:4px 6px;}
+.cluster-selected{
+  position:absolute;
+  display:flex;flex-direction:column;align-items:center;
+  pointer-events:none;
+}
+.cluster-selected-badge{
+  width:60px;height:60px;background:var(--brand-dark);
+  border-radius:50px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 2px rgba(0,0,0,.10);z-index:2;position:relative;
+}
+.cluster-selected-badge img{width:42px;height:42px;}
+.cluster-tail{width:29px;height:20px;z-index:1;position:relative;margin-top:-4px;}
+.cluster-tail img{width:100%;height:100%;}
 
-  .catalog-label img{
-    width:18px;
-    height:18px;
-    display:block;
-  }
+/* info popup on map */
+.map-popup{
+  position:absolute;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.map-popup-card{
+  background:var(--bg-white);
+  border:3px solid #afafaf;
+  border-radius:var(--r-xl);
+  padding:4px 8px;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 3px 6px rgba(0,0,0,.08);
+  white-space:nowrap;
+}
+.map-popup-logo{width:24px;height:24px;flex-shrink:0;}
+.map-popup-logo img{width:100%;height:100%;}
+.map-popup-label{font-size:14px;font-weight:700;color:var(--text-primary);}
+.map-popup-sep{width:1px;height:16px;background:var(--stroke-divider);}
+.map-popup-rating{display:flex;align-items:center;gap:4px;padding-left:8px;}
+.map-popup-rating img{width:16px;height:16px;}
+.map-popup-rating span{font-size:14px;font-weight:700;color:var(--text-secondary);}
+.map-popup-dot{width:5px;height:5px;border-radius:50%;background:#fc8507;}
 
-  .search-form{
-    height:64px;
-    min-width:360px;
-    flex:1 1 auto;
-    display:flex;
-    align-items:center;
-    border-radius:var(--radius);
-    background:var(--bg-input-gray);
-    transition:background .16s ease,box-shadow .16s ease;
-  }
-
-  .search-form:hover{
-    background:#f0efef;
-  }
-
-  .search-form:focus-within{
-    background:#fff;
-    box-shadow:var(--focus-ring), inset 0 0 0 1px rgba(252,133,7,.45);
-  }
-
-  .search-input{
-    width:100%;
-    height:100%;
-    padding:0 14px 0 20px;
-    border:0;
-    outline:0;
-    background:transparent;
-    color:var(--text-primary);
-    font-size:16px;
-    line-height:20px;
-  }
-
-  .search-input::placeholder{
-    color:var(--text-tertiary);
-  }
-
-  .search-button{
-    width:56px;
-    height:56px;
-    margin-right:4px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:var(--radius-small);
-    background:transparent;
-    transition:background .16s ease;
-  }
-
-  .search-button:hover{
-    background:var(--controls-hover-gray);
-  }
-
-  .search-button:active{
-    background:var(--controls-active-gray);
-  }
-
-  .search-button img{
-    width:24px;
-    height:24px;
-    display:block;
-  }
-
-  .actions{
-    display:flex;
-    align-items:center;
-    gap:2px;
-    flex:0 0 auto;
-  }
-
-  .action{
-    position:relative;
-    width:86px;
-    height:64px;
-    padding:7px 6px 6px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:4px;
-    border-radius:var(--radius);
-    background:transparent;
-    color:var(--text-secondary);
-    transition:background .16s ease,color .16s ease,transform .16s ease;
-  }
-
-  .action:hover{
-    background:var(--controls-hover-gray);
-    color:var(--text-primary);
-  }
-
-  .action:active{
-    background:var(--controls-active-gray);
-    transform:translateY(1px);
-  }
-
-  .action:focus-visible,
-  .brand-catalog:focus-visible,
-  .search-button:focus-visible{
-    outline:0;
-    box-shadow:var(--focus-ring);
-  }
-
-  .action-icon{
-    width:24px;
-    height:24px;
-    display:block;
-  }
-
-  .action-label{
-    font-size:14px;
-    line-height:16px;
-  }
-
-  .badge{
-    position:absolute;
-    top:5px;
-    right:22px;
-    min-width:18px;
-    height:18px;
-    padding:0 5px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border:2px solid var(--bg-secondary);
-    border-radius:50px;
-    background:var(--brand-orange);
-    color:#fff;
-    font-weight:700;
-    font-size:11px;
-    line-height:14px;
-  }
-
-  .avatar-stack{
-    width:28px;
-    height:28px;
-    position:relative;
-  }
-
-  .avatar-stack img{
-    position:absolute;
-    display:block;
-  }
-
-  .avatar-photo{
-    inset:4px;
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    object-fit:cover;
-  }
-
-  .avatar-base{
-    inset:0;
-    width:28px;
-    height:28px;
-  }
-
-  .avatar-subtract{
-    left:-8px;
-    top:-8px;
-    width:44px;
-    height:44px;
-    opacity:.9;
-  }
-
-  .caption{
-    width:min(1380px,calc(100vw - 48px));
-    color:#666;
-    font-size:14px;
-    line-height:18px;
-    text-align:center;
-  }
-
-  .caption code{
-    padding:1px 5px;
-    border-radius:5px;
-    background:rgba(255,255,255,.65);
-  }
-
-  @media (max-width:1199px){
-    .page{
-      align-items:flex-start;
-    }
-
-    .header-shell{
-      margin:0;
-    }
-
-    .caption{
-      min-width:0;
-      padding:0 24px;
-      text-align:left;
-    }
-  }
+/* zoom controls */
+.zoom-controls{
+  position:absolute;right:24px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:12px;align-items:center;
+}
+.zoom-btns{
+  background:var(--bg-white);border-radius:var(--r-md);
+  padding:12px;display:flex;flex-direction:column;gap:16px;
+  box-shadow:var(--shadow-float);
+}
+.zoom-btn{width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.zoom-btn img{width:100%;height:100%;}
+.locate-btn{
+  width:44px;height:44px;background:var(--bg-white);
+  border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-float);cursor:pointer;
+  transition:background .14s;
+}
+.locate-btn:hover{background:var(--hover-gray);}
+.locate-btn img{width:20px;height:20px;}
 </style>
 </head>
 <body>
-  <main class="page">
-    <div class="viewport" aria-label="Прокручиваемая область прототипа">
-      <header class="header-shell" aria-label="Шапка магазина DNS">
-        <div class="top-row">
-          <div class="top-left">
-            <div class="locale" aria-label="Язык интерфейса">
-              <img class="flag" src="assets/flag-ru.svg" alt="">
-              <span>Ru</span>
-              <img class="chevron" src="assets/chevron-small.svg" alt="">
-            </div>
+<div class="outer">
 
-            <div class="location">
-              <img src="assets/map-pin.svg" alt="">
-              <span>Москва</span>
-            </div>
-
-            <nav class="nav" aria-label="Верхняя навигация">
-              <a class="nav-link" href="#">
-                <span>DNS Видео</span>
-                <span class="video-dot" aria-hidden="true"></span>
-              </a>
-              <a class="nav-link" href="#">Доставка</a>
-              <a class="dropdown-link" href="#">
-                <span>Покупателям</span>
-                <img class="chevron" src="assets/chevron-small.svg" alt="">
-              </a>
-              <a class="nav-link" href="#">Юрлицам</a>
-              <a class="nav-link" href="#">Клуб DNS</a>
-              <a class="nav-link" href="#">Предложения брендов</a>
-              <a class="dropdown-link" href="#">
-                <span>Сотрудничество</span>
-                <img class="chevron" src="assets/chevron-small.svg" alt="">
-              </a>
-            </nav>
+<!-- ═══════ HEADER ═══════ -->
+<header class="header">
+  <div style="padding:0 130px;">
+    <div class="header-inner">
+      <div class="top-row">
+        <div class="top-left">
+          <div class="locale">
+            <img class="flag" src="assets/flag-ru.svg" alt="Россия">
+            <span>Ru</span>
+            <img class="ic16" src="assets/chevron-small.svg" alt="">
           </div>
-
-          <div class="top-right">
-            <a class="phone" href="tel:88007707888">8-800-77-07-888</a>
+          <div class="location">
+            <img class="ic16" src="assets/map-pin.svg" alt="">
+            <span>Москва</span>
           </div>
+          <nav class="nav">
+            <a class="nav-link" href="#">DNS Видео<span class="video-dot"></span></a>
+            <a class="nav-link" href="#">Доставка</a>
+            <a class="nav-link" href="#">Покупателям<img class="ic16" src="assets/chevron-small.svg" alt=""></a>
+            <a class="nav-link" href="#">Юрлицам</a>
+            <a class="nav-link" href="#">Клуб DNS</a>
+            <a class="nav-link" href="#">Предложения брендов</a>
+            <a class="nav-link" href="#">Сотрудничество<img class="ic16" src="assets/chevron-small.svg" alt=""></a>
+          </nav>
         </div>
+        <a class="phone" href="tel:88007707888">8-800-77-07-888</a>
+      </div>
 
-        <div class="bottom-row">
-          <button class="brand-catalog" type="button" aria-label="Открыть каталог">
-            <img class="brand-logo" src="assets/dns-logo.svg" alt="DNS">
-            <span class="catalog-divider" aria-hidden="true"></span>
-            <span class="catalog-label">
-              <span>Каталог</span>
-              <img src="assets/dropdown-white.svg" alt="">
-            </span>
+      <div class="bottom-row">
+        <button class="brand-btn" type="button" aria-label="Каталог">
+          <img class="brand-logo" src="assets/dns-logo.svg" alt="DNS">
+          <span class="divider-v"></span>
+          <span class="catalog-label">
+            <span>Каталог</span>
+            <img src="assets/dropdown-white.svg" alt="">
+          </span>
+        </button>
+
+        <form class="search-form" role="search">
+          <input class="search-input" type="search" placeholder="Поиск по сайту" autocomplete="off">
+          <button class="search-btn" type="submit" aria-label="Найти">
+            <img src="assets/search.svg" alt="">
           </button>
+        </form>
 
-          <form class="search-form" action="#" role="search" aria-label="Поиск по сайту">
-            <input class="search-input" type="search" name="q" placeholder="Поиск по сайту" autocomplete="off" aria-label="Поиск по сайту">
-            <button class="search-button" type="submit" aria-label="Найти">
-              <img src="assets/search.svg" alt="">
-            </button>
-          </form>
+        <div class="actions">
+          <button class="action" type="button" aria-label="Сравнение">
+            <img src="assets/compare.svg" alt="">
+            <span class="badge">1</span>
+            <span>Сравнение</span>
+          </button>
+          <button class="action" type="button" aria-label="Избранное">
+            <img src="assets/wishlist.svg" alt="">
+            <span class="badge">15</span>
+            <span>Избранное</span>
+          </button>
+          <button class="action" type="button" aria-label="Корзина">
+            <img src="assets/cart.svg" alt="">
+            <span class="badge">3</span>
+            <span>1 260 ₽</span>
+          </button>
+          <button class="action" type="button" aria-label="Профиль">
+            <span class="avatar-wrap">
+              <img class="ava-photo" src="assets/avatar-photo.png" alt="">
+              <img class="ava-base" src="assets/avatar-base.svg" alt="">
+              <img class="ava-sub" src="assets/avatar-subtract.svg" alt="">
+            </span>
+            <span class="badge">1</span>
+            <span>Профиль</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-          <div class="actions" aria-label="Действия пользователя">
-            <button class="action" type="button" aria-label="Сравнение, 1 товар">
-              <img class="action-icon" src="assets/compare.svg" alt="">
-              <span class="badge">1</span>
-              <span class="action-label">Сравнение</span>
-            </button>
+<!-- ═══════ BODY ═══════ -->
+<div style="padding:0 130px;">
+<div class="body-wrap">
 
-            <button class="action" type="button" aria-label="Избранное, 15 товаров">
-              <img class="action-icon" src="assets/wishlist.svg" alt="">
-              <span class="badge">15</span>
-              <span class="action-label">Избранное</span>
-            </button>
+  <!-- breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <a class="bc-item" href="#">Каталог<img src="assets/chevron-right.svg" alt=""></a>
+    <a class="bc-item" href="#">Магазины и пункты выдачи<img src="assets/chevron-right.svg" alt=""></a>
+    <a class="bc-item" href="#">Москва<img src="assets/chevron-right.svg" alt=""></a>
+    <span class="bc-item current">ТРЦ Город Лефортово</span>
+  </nav>
 
-            <button class="action" type="button" aria-label="Корзина, 3 товара на 1 260 рублей">
-              <img class="action-icon" src="assets/cart.svg" alt="">
-              <span class="badge">3</span>
-              <span class="action-label">1 260 ₽</span>
-            </button>
+  <!-- title -->
+  <h1 class="page-title">Москва — ТРЦ Город Лефортово</h1>
 
-            <button class="action" type="button" aria-label="Профиль, 1 уведомление">
-              <span class="avatar-stack" aria-hidden="true">
-                <img class="avatar-photo" src="assets/avatar-photo.png" alt="">
-                <img class="avatar-base" src="assets/avatar-base.svg" alt="">
-                <img class="avatar-subtract" src="assets/avatar-subtract.svg" alt="">
-              </span>
-              <span class="badge">1</span>
-              <span class="action-label">Профиль</span>
-            </button>
+  <!-- map card -->
+  <div class="map-card">
+
+    <!-- ── LEFT PANEL ── -->
+    <div class="store-panel" id="storePanel">
+      <div class="store-content">
+
+        <!-- wobbler -->
+        <div class="wobbler">
+          Корпоративный отдел
+          <img src="assets/info-circle.svg" alt="">
+        </div>
+
+        <!-- store header info -->
+        <div class="store-header">
+          <div class="pvz-logo">
+            <img class="pvz-logo-bg" src="assets/pvz-bg.svg" alt="">
+            <img class="pvz-logo-sub" src="assets/pvz-subtract.svg" alt="">
+          </div>
+          <div class="store-details">
+            <div class="store-name">ТРЦ Город Лефортово</div>
+            <div class="metro-row">
+              <span class="metro-dot"></span>
+              <span>Авиамоторная — 822 м.</span>
+            </div>
+            <div class="store-address">г. Москва, 111024, Город Москва, Энтузиастов, ш, дом 12, корпус 2</div>
           </div>
         </div>
-      </header>
-    </div>
 
-    <p class="caption">Desktop header prototype from Figma node <code>5084:9448</code>. On narrow screens, scroll horizontally to inspect the 1380px layout.</p>
-  </main>
+        <!-- time -->
+        <div class="time-row">
+          <img src="assets/clock.svg" alt="">
+          <span>Пн-Пт с 10:00 до 18:00, Сб-Вс с 10:00 до 17:00 (закрыто — до открытия 1 ч.)</span>
+        </div>
+
+        <!-- rating chips + service icons -->
+        <div class="chips-row">
+          <div class="rating-chip">
+            <img src="assets/rating-solid.svg" alt="★">
+            <span class="rating-num">4.81</span>
+            <span class="chip-divider"></span>
+            <span class="rating-count">266 оценок</span>
+          </div>
+          <button class="ic-btn" type="button" title="Плёнка"><img src="assets/product-film.svg" alt="Плёнка"></button>
+          <button class="ic-btn" type="button" title="Постамат"><img src="assets/postamat.svg" alt="Постамат"></button>
+          <button class="ic-btn" type="button" title="Фотокамеры"><img src="assets/photo-camera.svg" alt="Камера"></button>
+          <button class="ic-btn" type="button" title="Посылки"><img src="assets/box.svg" alt="Коробка"></button>
+        </div>
+
+        <!-- buttons row -->
+        <div class="actions-row">
+          <div class="btn-group">
+            <button class="btn-primary" type="button">Контакты</button>
+            <button class="btn-gray" type="button">Реквизиты</button>
+            <button class="btn-fav" id="favBtn" type="button" aria-label="Добавить в избранное">
+              <img src="assets/heart-outline.svg" alt="В избранное">
+            </button>
+          </div>
+          <a class="route-link" href="#" target="_blank">
+            <div class="route-icon-wrap">
+              <img src="assets/route-icon.svg" alt="Яндекс.Карты">
+            </div>
+            Открыть маршрут в Яндекс.Карты
+            <img class="ext" src="assets/arrow-up-right.svg" alt="">
+          </a>
+        </div>
+
+        <!-- photo slider -->
+        <div class="photo-slider">
+          <div class="photo-track" id="photoTrack">
+            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина"></div>
+            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:20% 50%"></div>
+            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:40% 50%"></div>
+            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:60% 50%"></div>
+            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:80% 50%"></div>
+            <div class="photo-thumb"><img src="assets/map-image.png" alt="Фото магазина" style="object-position:100% 50%"></div>
+          </div>
+          <button class="slider-arrow" id="sliderNext" type="button" aria-label="Следующий">›</button>
+        </div>
+
+        <!-- accordions -->
+        <div class="accordion-list">
+          <div class="collapse" id="collapseReceive">
+            <div class="collapse-header" role="button" aria-expanded="false" tabindex="0">
+              <span class="collapse-title">Способы получения</span>
+              <img class="collapse-arrow" src="assets/chevron-down.svg" alt="">
+            </div>
+            <div class="collapse-body">
+              Самовывоз, курьерская доставка по договорённости.
+            </div>
+          </div>
+
+          <div class="collapse open" id="collapsePayment">
+            <div class="collapse-header" role="button" aria-expanded="true" tabindex="0">
+              <span class="collapse-title bold">Способы оплаты</span>
+              <img class="collapse-arrow" src="assets/chevron-up.svg" alt="">
+            </div>
+            <div class="collapse-body" style="display:block;">
+              <p class="payment-text">Подарочные карты, наличный расчёт, безналичный расчёт</p>
+              <div class="payment-logos">
+                <img src="assets/sbp.svg" alt="СБП" style="height:20px;">
+                <img src="assets/mir.svg" alt="Мир" style="height:12px;">
+                <img src="assets/sber.svg" alt="Сбер" style="height:20px;">
+                <img src="assets/t-pay.svg" alt="T-Pay" style="height:16px;">
+                <span class="youmoney-text" style="font-size:13px;font-weight:700;background:linear-gradient(90deg,#9b0be8,#ff0097);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ЮMoney</span>
+                <img src="assets/mastercard.svg" alt="Mastercard" style="height:20px;">
+                <img src="assets/visa.svg" alt="Visa" style="height:12px;">
+              </div>
+            </div>
+          </div>
+
+          <div class="collapse" id="collapseCredit">
+            <div class="collapse-header" role="button" aria-expanded="false" tabindex="0">
+              <span class="collapse-title">Кредиты</span>
+              <img class="collapse-arrow" src="assets/chevron-down.svg" alt="">
+            </div>
+            <div class="collapse-body">
+              Кредиты и рассрочка по согласованию с банками-партнёрами.
+            </div>
+          </div>
+        </div>
+
+        <!-- summary -->
+        <div class="summary-card">
+          <div class="summary-title">Что пишут о магазине:</div>
+          <div class="summary-text">В филиале наблюдается разное качество обслуживания: часть клиентов отмечает быструю и качественную выдачу товаров, вежливость сотрудников и оперативность. Вместе с тем встречаются жалобы на сложности с наличием консультантов, задержки и ошибки при выдаче, а также случаи продажи товаров с повреждённой упаковкой или следами использования. Некоторые посетители выражают недовольство уровнем внимательности и квалификацией персонала.</div>
+        </div>
+
+        <!-- reviews -->
+        <div class="reviews">
+          <div class="reviews-heading">Недавние отзывы</div>
+          <div class="review-list">
+
+            <!-- review 1 -->
+            <div class="review">
+              <div class="review-header">
+                <div class="review-avatar">
+                  <img src="assets/review-avatar.svg" alt="">
+                  <img src="assets/review-default-picture.svg" alt="" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);border-radius:50%;object-fit:cover;">
+                </div>
+                <div class="review-info">
+                  <div class="review-meta">
+                    <span class="review-name">Пришелец-LJ0124</span>
+                    <span class="review-date">15.08.2025</span>
+                  </div>
+                  <div class="stars">
+                    <img src="assets/star-filled.svg" alt="★">
+                    <img src="assets/star-filled.svg" alt="★">
+                    <img src="assets/star-filled.svg" alt="★">
+                    <img src="assets/star-filled.svg" alt="★">
+                    <img src="assets/star-filled.svg" alt="★">
+                  </div>
+                </div>
+              </div>
+              <div class="review-text">Все отлично, чисто, быстро</div>
+            </div>
+
+            <!-- review 2 -->
+            <div class="review">
+              <div class="review-header">
+                <div class="review-avatar">
+                  <img src="assets/review-avatar.svg" alt="">
+                  <img src="assets/review-default-picture.svg" alt="" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);border-radius:50%;object-fit:cover;">
+                </div>
+                <div class="review-info">
+                  <div class="review-meta">
+                    <span class="review-name">Звездный_Путешественник</span>
+                    <span class="review-date">01.07.2025</span>
+                  </div>
+                  <div class="stars">
+                    <img src="assets/star-muted.svg" alt="★">
+                    <img src="assets/star-muted.svg" alt="★">
+                    <img src="assets/star-muted.svg" alt="★">
+                    <img src="assets/star-muted.svg" alt="★">
+                    <img src="assets/star-muted.svg" alt="★">
+                  </div>
+                </div>
+              </div>
+              <div class="review-text">Все плохо</div>
+            </div>
+
+            <!-- review 3 -->
+            <div class="review">
+              <div class="review-header">
+                <div class="review-avatar">
+                  <img src="assets/review-avatar.svg" alt="">
+                  <img src="assets/review-default-picture-2.svg" alt="" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);border-radius:50%;object-fit:cover;">
+                </div>
+                <div class="review-info">
+                  <div class="review-meta">
+                    <span class="review-name">Космический_Исследователь</span>
+                    <span class="review-date">12.06.2025</span>
+                  </div>
+                  <div class="stars">
+                    <img src="assets/star-filled.svg" alt="★">
+                    <img src="assets/star-filled.svg" alt="★">
+                    <img src="assets/star-filled.svg" alt="★">
+                    <img src="assets/star-filled.svg" alt="★">
+                    <img src="assets/star-muted.svg" alt="★">
+                  </div>
+                </div>
+              </div>
+              <div class="review-text" id="review3text" style="overflow:hidden;max-height:48px;">Магазин оставил приятное впечатление, рекомендую! Сотрудницы магазина, Ольга и Анна, поразили своей внимательностью и знаниями о продуктах.</div>
+              <div class="review-expand" id="expandBtn">
+                <span>Развернуть</span>
+                <img src="assets/nav-chevron-down.svg" alt="">
+              </div>
+            </div>
+
+          </div>
+
+          <button class="btn-show-more" type="button">Показать ещё</button>
+        </div>
+
+      </div><!-- /store-content -->
+    </div><!-- /store-panel -->
+
+    <!-- ── RIGHT MAP ── -->
+    <div class="map-image-area">
+      <img class="map-bg" src="assets/map-image.png" alt="Карта магазинов DNS">
+
+      <!-- clusters (opacity 50 = other shops) -->
+      <div class="cluster" style="left:185px;top:139px;opacity:.5"><div class="cluster-inner">2</div></div>
+      <div class="cluster" style="left:680px;top:267px;opacity:.5"><div class="cluster-inner">7</div></div>
+      <div class="cluster" style="left:252px;top:243px;opacity:.5">
+        <div style="width:24px;height:24px;"><img src="assets/logo-pvz.svg" alt="" style="width:100%;height:100%;"></div>
+      </div>
+      <div class="cluster" style="left:218px;top:359px;opacity:.5"><div class="cluster-inner">3</div></div>
+      <div class="cluster" style="left:126px;top:392px;opacity:.5"><div class="cluster-inner">2</div></div>
+      <div class="cluster" style="left:615px;top:78px;opacity:.5"><div class="cluster-inner big">140</div></div>
+      <div class="cluster" style="left:549px;top:409px;opacity:.5"><div class="cluster-inner big">1000</div></div>
+      <div class="cluster" style="left:80px;top:518px;opacity:.5"><div class="cluster-inner">15</div></div>
+      <div class="cluster" style="left:411px;top:520px;opacity:.5"><div style="width:24px;height:24px;"><img src="assets/logo-pvz.svg" alt="" style="width:100%;height:100%;"></div></div>
+      <div class="cluster" style="left:379px;top:762px;opacity:.5"><div style="width:24px;height:24px;"><img src="assets/logo-pvz.svg" alt="" style="width:100%;height:100%;"></div></div>
+      <div class="cluster" style="left:208px;top:762px;opacity:.5"><div style="width:24px;height:24px;"><img src="assets/logo-pvz.svg" alt="" style="width:100%;height:100%;"></div></div>
+      <div class="cluster" style="left:773px;top:813px;opacity:.5"><div style="width:24px;height:24px;"><img src="assets/logo-pvz.svg" alt="" style="width:100%;height:100%;"></div></div>
+      <div class="cluster" style="left:533px;top:624px;opacity:.5"><div style="width:24px;height:24px;"><img src="assets/logo-pvz.svg" alt="" style="width:100%;height:100%;"></div></div>
+      <div class="cluster" style="left:820px;top:68px;opacity:.5"><div style="width:24px;height:24px;"><img src="assets/logo-pvz.svg" alt="" style="width:100%;height:100%;"></div></div>
+      <div class="cluster" style="left:773px;top:362px;opacity:.5"><div style="width:24px;height:24px;"><img src="assets/logo-pvz.svg" alt="" style="width:100%;height:100%;"></div></div>
+      <div class="cluster" style="left:718px;top:572px;opacity:.5"><div class="cluster-inner">14</div></div>
+
+      <!-- selected shop marker -->
+      <div class="cluster-selected" style="left:306px;top:464px;">
+        <div class="cluster-selected-badge">
+          <img src="assets/selected-pvz-bg.svg" alt="" style="position:absolute;inset:0;width:100%;height:100%;">
+          <img src="assets/selected-pvz-subtract.svg" alt="" style="width:32px;height:32px;position:relative;">
+        </div>
+        <div class="cluster-tail">
+          <img src="assets/pickup-point-details.svg" alt="">
+        </div>
+      </div>
+
+      <!-- info popup -->
+      <div class="map-popup" style="right:20px;top:36px;">
+        <div class="map-popup-card">
+          <div class="map-popup-logo"><img src="assets/map-logo.svg" alt="DNS"></div>
+          <span class="map-popup-label">Завтра</span>
+          <span class="map-popup-sep"></span>
+          <div class="map-popup-rating">
+            <img src="assets/map-rating-solid.svg" alt="★">
+            <span>4.81</span>
+          </div>
+        </div>
+        <div class="map-popup-dot"></div>
+      </div>
+
+      <!-- zoom controls -->
+      <div class="zoom-controls">
+        <div class="zoom-btns">
+          <button class="zoom-btn" type="button" id="zoomIn" aria-label="Приблизить">
+            <img src="assets/zoom-in.svg" alt="+">
+          </button>
+          <button class="zoom-btn" type="button" id="zoomOut" aria-label="Отдалить">
+            <img src="assets/zoom-out.svg" alt="-">
+          </button>
+        </div>
+        <button class="locate-btn" type="button" aria-label="Моё местоположение">
+          <img src="assets/nav-arrow.svg" alt="">
+        </button>
+      </div>
+    </div><!-- /map-image-area -->
+
+  </div><!-- /map-card -->
+
+</div><!-- /body-wrap -->
+</div>
 
 <script>
-  const searchForm = document.querySelector('.search-form');
-  const searchInput = document.querySelector('.search-input');
-
-  searchForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    searchInput.focus();
-    if (!searchInput.value.trim()) {
-      searchInput.value = 'Смартфоны';
-      searchInput.select();
+// accordion toggle
+document.querySelectorAll('.collapse-header').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const col = btn.closest('.collapse');
+    const isOpen = col.classList.contains('open');
+    col.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    const arrow = btn.querySelector('.collapse-arrow');
+    const bodyEl = col.querySelector('.collapse-body');
+    if (!isOpen) {
+      arrow.src = 'assets/chevron-up.svg';
+      bodyEl.style.display = 'block';
+    } else {
+      arrow.src = 'assets/chevron-down.svg';
+      bodyEl.style.display = 'none';
     }
   });
+});
+
+// expand review
+const expandBtn = document.getElementById('expandBtn');
+const reviewText = document.getElementById('review3text');
+if (expandBtn) {
+  expandBtn.addEventListener('click', () => {
+    reviewText.style.maxHeight = 'none';
+    expandBtn.style.display = 'none';
+  });
+}
+
+// favorite toggle
+const favBtn = document.getElementById('favBtn');
+if (favBtn) {
+  favBtn.addEventListener('click', () => {
+    favBtn.classList.toggle('active');
+    const img = favBtn.querySelector('img');
+    img.style.filter = favBtn.classList.contains('active')
+      ? 'invert(36%) sepia(90%) saturate(700%) hue-rotate(-10deg)'
+      : '';
+  });
+}
+
+// photo slider
+const track = document.getElementById('photoTrack');
+const sliderNext = document.getElementById('sliderNext');
+if (sliderNext && track) {
+  sliderNext.addEventListener('click', () => {
+    track.scrollBy({left: 78, behavior: 'smooth'});
+  });
+}
+
+// search
+document.querySelector('.search-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const inp = e.target.querySelector('input');
+  if (!inp.value.trim()) inp.value = 'Смартфоны';
+});
+
+// zoom (visual feedback only)
+let zoomLabel = document.querySelector('.map-popup-label');
+let zoomLevel = 0;
+const zoomLabels = ['Сегодня', 'Завтра', 'Послезавтра'];
+document.getElementById('zoomIn').addEventListener('click', () => {
+  if (zoomLabel) zoomLabel.textContent = zoomLabels[Math.min(zoomLevel++, zoomLabels.length-1)] || 'Завтра';
+});
+document.getElementById('zoomOut').addEventListener('click', () => {
+  if (zoomLabel) zoomLabel.textContent = zoomLabels[Math.max(--zoomLevel, 0)] || 'Сегодня';
+});
 </script>
 </body>
 </html>

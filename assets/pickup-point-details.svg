@@ -1,0 +1,23 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 54 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Pickup Point Details">
+<g id="Rectangle " filter="url(#filter0_f_0_16787)">
+<rect x="12" y="12" width="30" height="25" rx="12.5" fill="var(--fill-0, black)" fill-opacity="0.16"/>
+</g>
+<g id="Ellipse 3" filter="url(#filter1_f_0_16787)">
+<ellipse cx="26.5" cy="33.5" rx="3.5" ry="1.5" fill="var(--fill-0, #4E4E4E)"/>
+</g>
+<path id="Union" d="M30 14C28.407 16.5951 28.3715 21.1496 28.3715 23.0547V31.024C28.3715 32.1153 27.5241 33 26.4787 33C25.4334 33 24.586 32.1153 24.586 31.024V23.0547C24.5643 21.1509 24.3871 16.2709 23 14H30Z" fill="var(--fill-0, #FC8507)"/>
+</g>
+<defs>
+<filter id="filter0_f_0_16787" x="0" y="0" width="54" height="49" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur_0_16787"/>
+</filter>
+<filter id="filter1_f_0_16787" x="19" y="28" width="15" height="11" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="2" result="effect1_foregroundBlur_0_16787"/>
+</filter>
+</defs>
+</svg>
